@@ -1,10 +1,5 @@
 import {
-  Count,
-  CountSchema,
-  Filter,
-  FilterExcludingWhere,
   repository,
-  Where,
 } from '@loopback/repository';
 import {
   post,
@@ -12,7 +7,6 @@ import {
   get,
   getModelSchemaRef,
   patch,
-  put,
   del,
   requestBody,
 } from '@loopback/rest';
@@ -66,10 +60,12 @@ export class IssueController {
   })
   async find(
     @param.query.number('page') pageNo=1,
+    @param.query.number('id') id :number,
   ): Promise<Issue[]> {
     return this.issueRepository.find({
       offset: ((pageNo-1)*10),
       limit: 10,
+      where:{id},
     });
   }
 
@@ -94,5 +90,15 @@ export class IssueController {
     await this.issueRepository.updateById(id, issue);
   }
 
+  @del('/delete-issue/{id}', {
+    responses: {
+      '204': {
+        description: 'Issue DELETE success',
+      },
+    },
+  })
+  async deleteById(@param.path.number('id') id: number): Promise<void> {
+    await this.issueRepository.deleteById(id);
+  }
 
 }
