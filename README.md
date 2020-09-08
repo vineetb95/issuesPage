@@ -6,4 +6,4 @@ How to run locally,
 2. cd issues-page
 3. npm start
 
-This starts the development server on port 5000
+This starts the development server on port 3000
